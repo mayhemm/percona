@@ -1,0 +1,19 @@
+{
+  "name": "percona",
+  "version": "0.0.0",
+  "authors": [
+    "Mariano Simone <mljsimone@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "angular": "~1.2.18"
+  }
+}
