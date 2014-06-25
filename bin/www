@@ -1,9 +1,51 @@
 #!/usr/bin/env node
+
 var debug = require('debug')('percona');
 var app = require('../app');
+var fs = require("fs");
+var parse = require("csv-parse");
+var sequelize = require("../models/index");
+var statModel = require("../models/stat");
 
-app.set('port', process.env.PORT || 3000);
+function syncModels() {
+    debug("Syncing models..");
+    
+    sequelize.sync({ force: true }).success(function() {
+        debug("Sync complete.");
+        loadDataPoints();
+    }).error(function() {
+        debug("Unable to sync models.");
+    });
+}
 
-var server = app.listen(app.get('port'), function() {
-  debug('Express server listening on port ' + server.address().port);
-});
+function loadDataPoints() {
+    var parser = parse({ delimiter: '\t', columns: true });
+    
+    parser.on("readable", function() {
+        statModel.create(parser.read()).error(function() {
+            debug("Check your input data. One record failed to load.");
+        });
+    });
+    
+    parser.on("finish", function() {
+        debug("All data points have been loaded.");
+        setupServer();
+    });
+
+    parser.on("error", function(err) {
+        debug("Unable to load data points. Malformated TSV file, perhaps?");
+    });
+    
+    debug("Loading data points..");
+    fs.createReadStream("./models/stats.tsv").pipe(parser);
+}
+
+function setupServer() {
+    app.set('port', process.env.PORT || 3000);
+    
+    var server = app.listen(app.get('port'), function() {
+        debug('Express server listening on port ' + server.address().port);
+    });
+}
+
+syncModels();
