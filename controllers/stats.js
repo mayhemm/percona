@@ -1,23 +1,24 @@
 var router = require('express').Router();
 
-// create
-router.post("/", function(request, response) {
-    response.send(501);
-});
+router.post("/", create);
+router.get("/:id?", read);
+router.put("/:id", update);
+router.delete("/:id", destroy);
 
-// read
-router.get("/:id?", function(request, response) {
+function create(request, response) {
     response.send(501);
-});
+}
 
-// update
-router.put("/:id", function(request, response) {
+function read(request, response) {
     response.send(501);
-});
+}
 
-// delete
-router.delete("/:id", function(request, response) {
+function update(request, response) {
     response.send(501);
-});
+}
+
+function destroy(request, response) {
+    response.send(501);
+}
 
 module.exports = router;
