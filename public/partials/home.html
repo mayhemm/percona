@@ -1,4 +1,26 @@
-<div class="starter-template">
-    <h1>Bootstrap starter template</h1>
-    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+<div id="home-page">
+    <h1>Statistics v0.1</h1>
+    <p class="lead">To begin, select two dates and hit that blue button over there..</p>
+    <p class="lead" ng-if="startDate && endDate">Selected range: <b class="text-success">{{startDate | date:"MM/dd/yyyy" }}</b> to <b class="text-success">{{endDate | date:"MM/dd/yyyy"}}</b></p>
+    <div class="row">
+        <form>
+            <div class="col-md-3 col-md-offset-3">
+                <input type="date" class="form-control" ng-model="startDate" required>
+            </div>
+            <div class="col-md-3">
+                <input type="date" class="form-control" ng-model="endDate" required>
+            </div>
+            <div class="col-md-3 text-left">
+                <button type="submit" class="btn btn-primary" ng-click="fetch()" ng-disabled="!startDate || !endDate">Plot it</button>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div id="plot" class="col-md-12">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+    </div>
 </div>
