@@ -31,13 +31,13 @@ function readAll(request, response) {
     if (start) {
         options.where = options.where || {};
         options.where.day = options.where.day || {};
-        options.where.day.gte = start;
+        options.where.day.gte = new Date(start);
     }
     
     if (end) {
         options.where = options.where || {};
         options.where.day = options.where.day || {};
-        options.where.day.lte = end;
+        options.where.day.lte = new Date(end);
     }
     
     Stat.findAll(options).success(function(rows) {
