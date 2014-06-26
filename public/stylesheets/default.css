@@ -18,3 +18,19 @@
 #plot {
     margin-top: 25px;
 }
+
+#messages {
+    margin-top: 25px;
+}
+
+.message {
+    padding: 15px;
+}
+
+#stats-table {
+    margin-top: 25px;
+}
+
+#stats-table th {
+    text-align: center;
+}

@@ -3,9 +3,12 @@ var controllers = angular.module("percona.controllers", []);
 controllers.controller("HomeController", ["$scope", "$http", function($scope, $http) {
     $scope.startDate = "2013-11-19";
     $scope.endDate = "2014-06-22";
-    
-    $scope.showFetchError = false;
 
+    $scope.showFetchError = false;
+    $scope.showNoResults = false;
+    
+    $scope.stats = [];
+    
     $scope.fetch = function() {
         var endpoint = "/stats";
         
@@ -15,7 +18,17 @@ controllers.controller("HomeController", ["$scope", "$http", function($scope, $h
         
         $http.get(endpoint, config).then(function(response) {
             $scope.showFetchError = false;
-            plot(response.data);
+            
+            if (response.data.length > 0) {
+                $scope.showNoResults = false;
+                
+                plot(response.data);
+                $scope.stats = response.data;
+            }
+            else {
+                $scope.showNoResults = true;
+            }
+
         }, function(error) {
             $scope.showFetchError = true;
         });
@@ -49,7 +62,7 @@ controllers.controller("HomeController", ["$scope", "$http", function($scope, $h
             .x(function(d) { return x(d.date); })
             .y(function(d) { return y(d.stat); });
 
-        d3.select("#plot").html("");
+        d3.select("svg").remove();
 
         var svg = d3.select("#plot").append("svg")
             .attr("width", width + margin.left + margin.right)

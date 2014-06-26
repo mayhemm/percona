@@ -1,7 +1,6 @@
-<div id="home-page">
+<div id="home-page" class="text-center">
     <h1>Statistics v0.1</h1>
     <p class="lead">To begin, select two dates and hit that blue button over there..</p>
-    <p class="lead" ng-if="startDate && endDate">Selected range: <b class="text-success">{{startDate | date:"MM/dd/yyyy" }}</b> to <b class="text-success">{{endDate | date:"MM/dd/yyyy"}}</b></p>
     <div class="row">
         <form>
             <div class="col-md-3 col-md-offset-3">
@@ -15,12 +14,42 @@
             </div>
         </form>
     </div>
-    <div class="row">
-        <div id="plot" class="col-md-12">
+    <div id="messages" class="row">
+        <div class="col-md-12">
+            <p class="message bg-danger" ng-show="showFetchError">Unable to fetch data. Try again in a little while..</p>
+            <p class="message bg-danger" ng-show="showNoResults">Unable to find any data point for the selected date range.</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div id="plot" class="col-md-12" ng-hide="showNoResults || showFetchError">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" ng-show="stats.length > 0 && !showNoResults && !showFetchError">
+            <table id="stats-table" class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>s1</th>
+                        <th>s2</th>
+                        <th>s3</th>
+                        <th>s4</th>
+                        <th>s5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="stat-{{stat.id}}" ng-repeat="stat in stats">
+                        <td>{{stat.id}}</td>
+                        <td>{{stat.day | date:"MM/dd/yyyy" }}</td>
+                        <td>{{stat.s1}}</td>
+                        <td>{{stat.s2}}</td>
+                        <td>{{stat.s3}}</td>
+                        <td>{{stat.s4}}</td>
+                        <td>{{stat.s5}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
